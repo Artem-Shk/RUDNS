@@ -1,7 +1,7 @@
 import requests
 import json
-from pprint import pprint
 import random
+from RutubeParser.CustomTypes.VideoInfo import VideoInfo
 
 
 class RutubeAPI:
@@ -19,7 +19,8 @@ class RutubeAPI:
         category_list_json_list = json.loads(category_list_response.content)
         for category in category_list_json_list: self.__category_dict.append(category["id"])
 
-    def get_random_video(self) -> dict:
+    
+    def get_random_video(self) -> VideoInfo: #TODO Оптимизировать метод!
         json_data = json.loads(
             self.__requests_session.get(
                 self.__videos_by_category_url.format(
@@ -29,16 +30,9 @@ class RutubeAPI:
             ).content
         )
         video = random.choice(json_data["results"])
-        return {
-            "title": video["title"],
-            "tag": video["category"]["name"],
-            "img_url": video["thumbnail_url"]
-        }
+        return VideoInfo(
+            title=video["title"],
+            catalog=video["category"]["name"],
+            image_url=video["thumbnail_url"]
+        ) 
 
-
-if __name__ == "__main__":
-
-    api = RutubeAPI()
-    for i in range(1000): pprint(
-        api.get_random_video()
-    )

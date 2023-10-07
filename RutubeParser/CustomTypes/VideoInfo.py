@@ -1,4 +1,7 @@
-class VideInfo:
+import requests as req
+from io import StringIO
+
+class VideoInfo:
     def __init__(self, title: str, catalog: str, image_url: str):
         self.title = title
         self.catalog = catalog
@@ -6,9 +9,8 @@ class VideInfo:
 
     @property
     def prompt(self) -> str:
-        return f"{self.catalog} {self.title}".lower()
+        return f"{self.catalog} {self.title}"
 
-    # TODO image loader to narray
     @property
-    def image(self) -> list:
-        ...
+    def image(self) -> StringIO:
+        return StringIO(req.get(self.image_url).content)
