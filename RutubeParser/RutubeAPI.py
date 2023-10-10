@@ -21,7 +21,6 @@ class RutubeAPI:
         category_list_json_list = json.loads(category_list_response.content)
         for category in category_list_json_list: self.__category_dict.append(category["id"])
 
-    @classmethod
     def get_info_by_url(self, url_video: str) -> VideoInfo:
         sp = url_video.split("/")
         data =  self.__requests_session.get(
