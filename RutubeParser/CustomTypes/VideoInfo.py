@@ -9,7 +9,7 @@ class VideoInfo:
 
     @property
     def prompt(self) -> str:
-        return f"{self.catalog} {self.title}"
+        return f"#Preview {self.catalog} {self.title}"
 
     @property
     def image(self) -> StringIO:
