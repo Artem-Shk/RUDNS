@@ -20,8 +20,7 @@
 if __name__ == "__main__":
     from RutubeParser.RutubeAPI import RutubeAPI
     from RutubeParser.Downloader import Downloader
-    
-    print("Init")
+
     parser = RutubeAPI()
     
     with open("tests_urls.txt", "r") as file:
