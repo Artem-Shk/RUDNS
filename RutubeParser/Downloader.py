@@ -3,13 +3,15 @@ from RutubeParser.CustomTypes.VideoInfo import VideoInfo
 
 import os
 
+
+
+
 class Downloader():
     idVideo = 0
-        
-       
+
     @classmethod
     def download_img(self, video: VideoInfo):
-        id = Downloader.idVideo.__str__()
+        id = self.next_id()
         raw_name_file = video.image_url.split("/")[-1]
         format = raw_name_file.split('.')[1]
         name_file = raw_name_file.split('.')[0] 
@@ -31,4 +33,9 @@ class Downloader():
             metainfo.write(
                 video.prompt
             )
-        Downloader.idVideo +=1
+    
+    @classmethod
+    def next_id(self):
+        res = self.idVideo
+        self.idVideo += 1
+        return res

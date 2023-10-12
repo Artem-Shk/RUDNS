@@ -55,3 +55,5 @@ class RutubeAPI:
             image_url=video["thumbnail_url"]
         ) 
 
+    def get_all_video(self, account: str):
+        ...
