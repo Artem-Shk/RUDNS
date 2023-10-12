@@ -14,3 +14,9 @@ class VideoInfo:
     @property
     def image(self) -> StringIO:
         return StringIO(req.get(self.image_url).content)
+    
+    def __str__(self) -> str:
+        return f"{self.title[:20]}"
+    
+    def __repr__(self) -> str:
+        return self.__str__()

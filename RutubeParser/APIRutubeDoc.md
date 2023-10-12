@@ -41,11 +41,11 @@ http://rutube.ru/api/metainfo/person/[person_id]/
 ### API получения информации о конкретном видео
 Формат запроса:
 ```
-http://rutube.ru/video/[id_video]/  
+http://rutube.ru/api/video/[id_video]/  
 
 or
 
-http://rutube.ru/video/[track_id]/
+http://rutube.ru/api/video/[track_id]/
 ```
 
 Для обратной совместимости с URL устаревшего формата (типа `http://rutube.ru/tracks/6089719.html`) API поддерживает  `track_id` – цифровые идентификаторы формата «старого» Rutube. Т.е. вполне допустимы запросы: `http://rutube.ru/api/video/a605127438df20169765247e3288a6cf/`  и `http://rutube.ru/api/video/6089719/`

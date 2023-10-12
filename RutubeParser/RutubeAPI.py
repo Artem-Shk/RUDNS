@@ -11,6 +11,7 @@ class RutubeAPI:
         self.__category_list_url: str = "https://rutube.ru/api/video/category/?format=json"
         self.__videos_by_category_url: str = "http://rutube.ru/api/video/category/{}/?format=json&page={}"
         self.__info_video_url: str = "http://rutube.ru/api/video/{}/?format=json"
+        self.__videos_by_user_url: str = "http://rutube.ru/api/video/person/{}/?format=json"
         
         self.__requests_session: requests.Session = requests.Session()
 
@@ -22,6 +23,12 @@ class RutubeAPI:
         category_list_json_list = json.loads(category_list_response.content)
         for category in category_list_json_list: self.__category_dict.append(category["id"])
 
+    def __parse_video(self, json_info: dict) -> VideoInfo:
+        return VideoInfo(
+            title=json_info["title"],
+            catalog=json_info["category"]["name"],
+            image_url=json_info["thumbnail_url"]
+        )
     
     def get_info_by_url(self, url_video: str) -> VideoInfo:
         sp = url_video.split("/")
@@ -30,14 +37,9 @@ class RutubeAPI:
                 sp[-2]
                 )
         ).content
-        print(sp)
         json_data = json.loads(data)
         
-        return VideoInfo(
-            title=json_data["title"],
-            catalog=json_data["category"]["name"],
-            image_url=json_data["thumbnail_url"]
-        )
+        return self.__parse_video(json_data)
     
     def get_random_video(self) -> VideoInfo: #TODO Оптимизировать метод!
         json_data = json.loads(
@@ -49,11 +51,23 @@ class RutubeAPI:
             ).content
         )
         video = random.choice(json_data["results"])
-        return VideoInfo(
-            title=video["title"],
-            catalog=video["category"]["name"],
-            image_url=video["thumbnail_url"]
-        ) 
+        return self.__parse_video(json_data)
 
-    def get_all_video(self, account: str):
-        ...
+    def get_video_by_autor(self, autor_id: str):
+        
+        videos = []
+        next_url = self.__videos_by_user_url.format(autor_id)
+        while True:
+            request = self.__requests_session.get(next_url)
+            if r:=request.reason != "OK": return r
+            json_data = json.loads(request.content)
+            [videos.append(self.__parse_video(video)) for video in json_data["results"]]    
+            if json_data["has_next"]: next_url = json_data["next"]
+            else:  return videos
+            
+        
+        
+            
+        
+        
+        

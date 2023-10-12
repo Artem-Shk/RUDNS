@@ -1,6 +1,5 @@
 import requests
 from RutubeParser.CustomTypes.VideoInfo import VideoInfo
-
 import os
 
 
